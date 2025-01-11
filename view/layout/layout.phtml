@@ -30,47 +30,55 @@ if ($userBar) {
 
 <?php echo $this->doctype(); ?>
 <?php echo $this->htmlElement('html'); ?>
-	<head>
-		<?php echo $this->headMeta(); ?>
-		<?php echo $this->headTitle(); ?>
-		<?php echo $this->headLink(); ?>
-		<?php echo $this->headStyle(); ?>
-		<?php echo $this->headScript(); ?>
 
-		<style type="text/css" media="screen">
-			:root {
-				--primary: <?php echo $primaryColor; ?>;
-				--primary-dark: <?php echo $this->ShadeColor($primaryColor, -10); ?>
-			}
-			
-			<?php if($bannerHeightMobile): ?>
-				@media screen and (max-width:768px) {
-					.banner {
-						<?php echo "{$bannerHeightProperty}: {$bannerHeightMobile} !important;"; ?>
-					}
-				}
-			<?php endif; ?>
-		</style>
-	</head>
+<head>
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headTitle(); ?>
+    <?php echo $this->headLink(); ?>
+    <?php echo $this->headStyle(); ?>
+    <?php echo $this->headScript(); ?>
 
-	<?php echo $this->htmlElement('body')->appendAttribute('class', $body_class); ?>
-		<a id="skipnav" href="#content"><?php echo $this->translate('Skip to main content'); ?></a>
+    <style type="text/css" media="screen">
+    :root {
+        --primary: <?php echo $primaryColor;
+        ?>;
+        --primary-dark: <?php echo $this->ShadeColor($primaryColor, -10);
+        ?>
+    }
 
-		<?php echo $this->partial('common/header', ['userBar' => $userBar, 'site' => $site]); ?>
+    <?php if($bannerHeightMobile): ?>@media screen and (max-width:768px) {
+        .banner {
+            <?php echo "{$bannerHeightProperty}: {$bannerHeightMobile} !important;";
+            ?>
+        }
+    }
 
-		<?php echo $this->partial('common/banner'); ?>
+    <?php endif;
+    ?>
+    </style>
+</head>
 
-		<div id="main-content" class="container" role="main">
-			<?php echo $this->content; ?>
-		</div>
+<?php echo $this->htmlElement('body')->appendAttribute('class', $body_class); ?>
+<a id="skipnav" href="#content"><?php echo $this->translate('Skip to main content'); ?></a>
 
-		<?php echo $this->partial('common/footer'); ?>
-		<?php echo $this->partial('common/menu-drawer'); ?>
+<?php echo $this->partial('common/header', ['userBar' => $userBar, 'site' => $site]); ?>
 
-		<?php
+<?php if ($site->homepage()->slug() == $this->params()->fromRoute('page-slug')): ?>
+<?php echo $this->partial('common/banner'); ?>
+<?php endif; ?>
+
+<div id="main-content" class="container" role="main">
+    <?php echo $this->content; ?>
+</div>
+
+<?php echo $this->partial('common/footer'); ?>
+<?php echo $this->partial('common/menu-drawer'); ?>
+
+<?php
 		echo $this->inlineScript()
 			->prependFile($this->assetUrl('js/navigation.js'))
 			->prependFile($this->assetUrl('js/script.js'));
 		?>
-	</body>
+</body>
+
 </html>
